@@ -42,4 +42,6 @@ docker compose -f docker-compose-image.yml up -d
 
 ## PRUEBAS
 Para las pruebas utilizar postman los endpoint se encuentran en la siguiente coleccion:
+Para las pruebas ir a la carpeta operaciones y seguir ese orden
 - api-rest-blog.postman_collection.json
+  ![postmain](images/postman.png)
