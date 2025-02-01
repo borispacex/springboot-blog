@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -37,6 +38,9 @@ public class AutorRepository {
     }
 
     public Autor guardar(Autor a) {
+        Autor autorBuscar = buscarPorId(a.getIdAutor());
+        if (!Objects.isNull(autorBuscar)) return null;
+
         Autor autor = new Autor();
         autor.setIdAutor(a.getIdAutor());
         autor.setNacimiento(a.getNacimiento());
@@ -50,8 +54,10 @@ public class AutorRepository {
     }
 
     public String eliminar(Integer id) {
+        Autor autor = buscarPorId(id);
+        if (Objects.isNull(autor)) return "Autor " + id + " no existe!!";
         list.removeIf(x -> x.getIdAutor() == (id));
-        return null;
+        return "Autor " + id +" eliminado !!";
     }
 
     public Autor actualizar(Autor a) {

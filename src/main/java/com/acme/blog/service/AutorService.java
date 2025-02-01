@@ -28,8 +28,7 @@ public class AutorService {
     }
 
     public String eliminarAutor(int id) {
-        autorRepository.eliminar(id);
-        return "Autor eliminado !! " + id;
+        return autorRepository.eliminar(id);
     }
 
     public Autor actualizarAutor(Autor autor) {

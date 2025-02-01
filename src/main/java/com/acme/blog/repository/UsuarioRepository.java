@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -37,6 +38,9 @@ public class UsuarioRepository {
     }
 
     public Usuario guardar(Usuario u) {
+        Usuario usuarioBuscar = buscarPorId(u.getIdUsuario());
+        if (!Objects.isNull(usuarioBuscar)) return null;
+
         Usuario usuario = new Usuario();
         usuario.setIdUsuario(u.getIdUsuario());
         usuario.setNombres(u.getNombres());
@@ -49,8 +53,10 @@ public class UsuarioRepository {
     }
 
     public String eliminar(Integer id) {
+        Usuario usuario = buscarPorId(id);
+        if (Objects.isNull(usuario)) return "Usuario " + id + " no existe!!";
         list.removeIf(x -> x.getIdUsuario() == (id));
-        return null;
+        return "Usuario " + id +" eliminado !!";
     }
 
     public Usuario actualizar(Usuario u) {
