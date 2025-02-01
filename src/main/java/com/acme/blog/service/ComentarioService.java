@@ -1,5 +1,7 @@
 package com.acme.blog.service;
 
+import com.acme.blog.dto.ComentarioRequest;
+import com.acme.blog.dto.ComentarioResponse;
 import com.acme.blog.model.Comentario;
 import com.acme.blog.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +15,19 @@ public class ComentarioService {
     @Autowired
     private ComentarioRepository comentarioRepository;
 
-    public Comentario guardarComentario(Comentario comentario) {
+    public ComentarioResponse guardarComentario(ComentarioRequest comentario) {
         return comentarioRepository.guardar(comentario);
     }
 
-    public List<Comentario> obtenerComentarios() {
+    public List<ComentarioResponse> obtenerComentarios() {
         return comentarioRepository.obtenerComentarios();
     }
 
-    public List<Comentario> obtenerComentariosNoEliminados() {
+    public List<ComentarioResponse> obtenerComentariosNoEliminados() {
         return comentarioRepository.obtenerComentariosNoEliminados();
     }
 
-    public Comentario buscarComentarioPorId(int id) {
+    public ComentarioResponse buscarComentarioPorId(int id) {
         return comentarioRepository.buscarPorId(id);
     }
 
@@ -34,7 +36,7 @@ public class ComentarioService {
         return "Comentario eliminado !! " + id;
     }
 
-    public Comentario actualizarComentario(Comentario comentario) {
+    public ComentarioResponse actualizarComentario(Comentario comentario) {
         return comentarioRepository.actualizar(comentario);
     }
 

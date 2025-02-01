@@ -1,5 +1,7 @@
 package com.acme.blog.controller;
 
+import com.acme.blog.dto.BlogRequest;
+import com.acme.blog.dto.BlogResponse;
 import com.acme.blog.model.Blog;
 import com.acme.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,12 @@ public class BlogController {
     private BlogService blogService;
 
     @PostMapping
-    public Blog agregarBlog(@RequestBody Blog blog) {
+    public BlogResponse agregarBlog(@RequestBody BlogRequest blog) {
         return blogService.guardarBlog(blog);
     }
 
     @GetMapping
-    public List<Blog> obtenerBlogsNoEliminados() {
+    public List<BlogResponse> obtenerBlogsNoEliminados() {
         return blogService.obtenerBlogsNoEliminados();
     }
 

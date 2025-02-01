@@ -1,35 +1,57 @@
 package com.acme.blog.repository;
 
+import com.acme.blog.dto.BlogRequest;
+import com.acme.blog.dto.BlogResponse;
+import com.acme.blog.dto.ComentarioResponse;
+import com.acme.blog.model.Autor;
 import com.acme.blog.model.Blog;
+import com.acme.blog.model.Comentario;
 import com.acme.blog.model.enums.Estado;
 import com.acme.blog.model.enums.Periocidad;
 import jdk.jfr.Registered;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
 public class BlogRepository {
 
-    private List<Blog> list = new ArrayList<Blog>();
+    private List<BlogResponse> list = new ArrayList<BlogResponse>();
 
-    public void createProducts() {
-        list = List.of(
-                new Blog(1, false, "Titulo", "Tema", "Contenido", Periocidad.DIARIA)
-        );
-    }
+    @Autowired
+    AutorRepository autorRepository;
 
-    public List<Blog> obtenerBlogs() {
+    public List<BlogResponse> obtenerBlogs() {
         return list;
     }
 
-    public List<Blog> obtenerBlogsNoEliminados() {
+    public List<BlogResponse> obtenerBlogsNoEliminados() {
         return list.stream().filter(x -> x.getEstado().equals(Estado.NO_ELIMINADO)).collect(Collectors.toList());
     }
 
-    public Blog buscarPorId(int id){
+    public BlogResponse agregarComentario(Integer id, ComentarioResponse comentario) {
+        BlogResponse blog = buscarPorId(id);
+        if(Objects.isNull(blog)) return null;
+        List<ComentarioResponse> listaComentarios = blog.getListaComentarios();
+        listaComentarios.add(comentario);
+
+        int idx = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getIdBlog() == id) {
+                idx = i;
+                break;
+            }
+        }
+        list.set(idx, blog);
+
+        return blog;
+    }
+
+    public BlogResponse buscarPorId(int id){
         for (int i = 0; i < list.size(); i++) {
 
             if (list.get(i).getIdBlog() == (id) && list.get(i).getEstado() == Estado.NO_ELIMINADO) {
@@ -39,17 +61,27 @@ public class BlogRepository {
         return null;
     }
 
-    public List<Blog> buscar(String titulo) {
+    public List<BlogResponse> buscar(String titulo) {
         return list.stream().filter(x -> x.getTitulo().startsWith(titulo) && x.getEstado().equals(Estado.NO_ELIMINADO)).collect(Collectors.toList());
     }
 
-    public Blog guardar(Blog b) {
-        Blog blog = new Blog();
+    public BlogResponse guardar(BlogRequest b) {
+        BlogResponse blogBuscar = buscarPorId(b.getIdBlog());
+        if (!Objects.isNull(blogBuscar)) return null; // Si el idBlog ya existe
+
+        Autor autor = autorRepository.buscarPorId(b.getIdAutor());
+        if (Objects.isNull(autor)) return null; // Si el autor no existe
+
+        BlogResponse blog = new BlogResponse();
+        blog.setAutor(autor);
+        blog.setListaComentarios(new ArrayList<ComentarioResponse>());
         blog.setIdBlog(b.getIdBlog());
         blog.setComentarios(b.getComentarios());
         blog.setTitulo(b.getTitulo());
         blog.setTema(b.getTema());
         blog.setContenido(b.getContenido());
+        blog.setPeriocidad(b.getPeriocidad());
+        blog.setEstado(Estado.NO_ELIMINADO);
         list.add(blog);
         return blog;
     }
@@ -62,13 +94,13 @@ public class BlogRepository {
                 break;
             }
         }
-        Blog blog = buscarPorId(id);
+        BlogResponse blog = buscarPorId(id);
         blog.setEstado(Estado.ELIMINADO);
         list.set(idx, blog);
         return null;
     }
 
-    public Blog actualizar(Blog b) {
+    public BlogResponse actualizar(Blog b) {
         int idx = 0;
         int id = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -79,7 +111,7 @@ public class BlogRepository {
             }
         }
 
-        Blog blog = new Blog();
+        BlogResponse blog = new BlogResponse();
         blog.setIdBlog(b.getIdBlog());
         blog.setComentarios(b.getComentarios());
         blog.setTitulo(b.getTitulo());

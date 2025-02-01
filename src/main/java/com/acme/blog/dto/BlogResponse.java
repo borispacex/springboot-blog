@@ -10,7 +10,7 @@ import java.util.List;
 public class BlogResponse extends Blog {
 
     private Autor autor;
-    private List<Comentario> listaComentarios;
+    private List<ComentarioResponse> listaComentarios;
 
     public BlogResponse() {}
 
@@ -27,11 +27,11 @@ public class BlogResponse extends Blog {
         this.autor = autor;
     }
 
-    public List<Comentario> getListaComentarios() {
+    public List<ComentarioResponse> getListaComentarios() {
         return listaComentarios;
     }
 
-    public void setListaComentarios(List<Comentario> listaComentarios) {
+    public void setListaComentarios(List<ComentarioResponse> listaComentarios) {
         this.listaComentarios = listaComentarios;
     }
 

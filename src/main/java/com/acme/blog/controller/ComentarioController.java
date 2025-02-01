@@ -1,5 +1,7 @@
 package com.acme.blog.controller;
 
+import com.acme.blog.dto.ComentarioRequest;
+import com.acme.blog.dto.ComentarioResponse;
 import com.acme.blog.model.Comentario;
 import com.acme.blog.service.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,12 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @PostMapping
-    public Comentario agregarComentario(@RequestBody Comentario comentario) {
+    public Comentario agregarComentario(@RequestBody ComentarioRequest comentario) {
         return comentarioService.guardarComentario(comentario);
     }
 
     @GetMapping
-    public List<Comentario> obtenerComentariosNoEliminados() {
+    public List<ComentarioResponse> obtenerComentariosNoEliminados() {
         return comentarioService.obtenerComentariosNoEliminados();
     }
 
