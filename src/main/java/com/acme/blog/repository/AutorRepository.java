@@ -15,7 +15,7 @@ public class AutorRepository {
 
     public void crearAutores() {
         list = List.of(
-                new Autor(1, LocalDate.now(),"Boris", "Vargas", "Paucara", "Bolivia", "borisvargaspaucara@gmail.com")
+                new Autor(1, "12-01-1996","Boris", "Vargas", "Paucara", "Bolivia", "borisvargaspaucara@gmail.com")
         );
     }
 
