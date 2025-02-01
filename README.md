@@ -36,3 +36,10 @@ docker load -i ./images/blog-java_app.tar
 docker compose -f docker-compose-image.yml up -d
 ```
 ![Opcion_3](images/opcion_3.png)
+
+## DIAGRMA SOLUCION 
+![Diagrama_solucion](images/diagrama-solucion.jpg)
+
+## PRUEBAS
+Para las pruebas utilizar postman los endpoint se encuentran en la siguiente coleccion:
+- api-rest-blog.postman_collection.json

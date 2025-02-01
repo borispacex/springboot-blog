@@ -54,7 +54,7 @@ public class ComentarioRepository {
         BlogResponse blog = blogRepository.buscarPorId(c.getIdBlog());
         if (Objects.isNull(blog)) return null; // Si el blog no existe
         if(!blog.getComentarios()) return null; // si el blog no permite comentarios
-        if (!(c.getPuntuacion() < 0 && c.getPuntuacion() > 10)) return null; // solo permite puntuaciones de 0 a 10
+        if (!(c.getPuntuacion() >= 0 && c.getPuntuacion() <= 10)) return null; // solo permite puntuaciones de 0 a 10
 
         ComentarioResponse comentario = new ComentarioResponse();
         comentario.setUsuario(usuario);
@@ -100,6 +100,15 @@ public class ComentarioRepository {
         comentario.setPuntuacion(c.getPuntuacion());
         list.set(idx, comentario);
         return comentario;
+    }
+
+    public ComentarioResponse buscarPorIdUsuario(int idUsuario){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUsuario().getIdUsuario() == (idUsuario) && list.get(i).getEstado() == Estado.NO_ELIMINADO) {
+                return list.get(i);
+            }
+        }
+        return null;
     }
 
 }

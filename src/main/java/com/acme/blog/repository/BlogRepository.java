@@ -122,4 +122,13 @@ public class BlogRepository {
         return blog;
     }
 
+    public BlogResponse buscarPorIdAutor(int idAutor){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getAutor().getIdAutor() == (idAutor) && list.get(i).getEstado() == Estado.NO_ELIMINADO) {
+                return list.get(i);
+            }
+        }
+        return null;
+    }
+
 }
