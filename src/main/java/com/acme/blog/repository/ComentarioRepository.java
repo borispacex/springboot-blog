@@ -53,6 +53,8 @@ public class ComentarioRepository {
         if (Objects.isNull(usuario)) return null; // Si el usuario no existe
         BlogResponse blog = blogRepository.buscarPorId(c.getIdBlog());
         if (Objects.isNull(blog)) return null; // Si el blog no existe
+        if(!blog.getComentarios()) return null; // si el blog no permite comentarios
+        if (!(c.getPuntuacion() < 0 && c.getPuntuacion() > 10)) return null; // solo permite puntuaciones de 0 a 10
 
         ComentarioResponse comentario = new ComentarioResponse();
         comentario.setUsuario(usuario);

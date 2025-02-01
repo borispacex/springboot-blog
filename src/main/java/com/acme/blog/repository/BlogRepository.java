@@ -101,22 +101,23 @@ public class BlogRepository {
     }
 
     public BlogResponse actualizar(Blog b) {
+        BlogResponse blog = buscarPorId(b.getIdBlog());
+        if (Objects.isNull(blog)) return null; // No existe el blog
+
         int idx = 0;
-        int id = 0;
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIdBlog() == (b.getIdBlog())) {
-                id = b.getIdBlog();
                 idx = i;
                 break;
             }
         }
 
-        BlogResponse blog = new BlogResponse();
         blog.setIdBlog(b.getIdBlog());
-        blog.setComentarios(b.getComentarios());
-        blog.setTitulo(b.getTitulo());
-        blog.setTema(b.getTema());
-        blog.setContenido(b.getContenido());
+        blog.setComentarios(Objects.isNull(b.getComentarios()) ? blog.getComentarios() : b.getComentarios());
+        blog.setTitulo(Objects.isNull(b.getTitulo()) ? blog.getTitulo() : b.getTitulo());
+        blog.setTema(Objects.isNull(b.getTema()) ? blog.getTema() : b.getTema());
+        blog.setContenido(Objects.isNull(b.getContenido()) ? blog.getContenido() : b.getContenido());
+        blog.setPeriocidad(Objects.isNull(b.getPeriocidad()) ? blog.getPeriocidad() : b.getPeriocidad());
         list.set(idx, blog);
         return blog;
     }
